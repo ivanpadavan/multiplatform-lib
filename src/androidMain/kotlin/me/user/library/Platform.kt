@@ -1,5 +1,8 @@
 package me.user.library
 
 actual class Platform actual constructor() {
-    actual val platform: String = "Android ${android.os.Build.VERSION.SDK_INT}"
+    actual fun log(v: Any?) { Unit }
+    actual fun init() { Unit }
+    actual val deviceType: DeviceType
+        get() = DeviceType.ANDROID
 }

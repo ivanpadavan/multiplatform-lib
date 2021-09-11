@@ -1,8 +1,7 @@
 package me.user.library
 
-
-import platform.UIKit.UIDevice
-
 actual class Platform actual constructor() {
-    actual val platform: String = UIDevice.currentDevice.systemName() + " " + UIDevice.currentDevice.systemVersion
+    actual val deviceType: DeviceType = DeviceType.IPHONE
+    actual fun log(v: Any?) { Unit }
+    actual fun init() { Unit }
 }
