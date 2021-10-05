@@ -3,10 +3,76 @@
 <head>
   <meta charset="UTF-8">
   <title>Title</title>
+  <style>
+      @keyframes scroll {
+          0% { transform: translateY(0); }
+          50% { transform: translateY(calc(-100% + 100vh)); }
+          100% { transform: translateY(0%); }
+      }
+      body {
+          animation: scroll 20s ease-in-out infinite;
+          background-color: #fff;
+          overflow: hidden;
+          text-align: center;
+      }
+      .channels {
+        margin-bottom: -100%;
+      }
+      .channel {
+          display: inline-block;
+          width: 10rem;
+          height: 10rem;
+          padding: 2rem;
+          margin: .2em;
+          background-color: teal;
+          background-size: cover;
+      }
+  </style>
 </head>
 <body>
-
-<script src="build/distributions/sml.js"></script>
-<script></script>
+    <div class="channels"></div>
+    <script>
+        var a = Object.defineProperty;
+         Object.defineProperty = function() {
+             try {
+                 return a.apply(Object, arguments);
+            } catch(e) {
+                console.log(e);
+                return;
+            }
+        }
+    </script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=AbortController%2Cfetch%2CString.prototype.startsWith%2CString.prototype.replaceAll"></script>
+    <script src="https://unpkg.com/web-streams-polyfill/dist/polyfill.js"></script>
+    <script>
+        Object.defineProperty(Response.prototype, 'body', {
+            configurable: false,
+            enumerable: true,
+            get: function() {
+                var _this = this;
+                return new ReadableStream({ start: function(controller) { _this.text().then(function(text) {
+                    var t = new TextEncoder();
+                    controller.enqueue(t.encode(text));
+                    controller.close();
+                }) } })
+            }
+        })
+    </script>
+    <script src="build/distributions/sml.js"></script>
+<script>
+    var r = sml.me.user.library
+    var sml = r.init(new r.Config("https://fe-iptv.baltcom.lv/api/v1/"))
+    r.asPromise(sml.deviceREST.authorize())
+     .then(function() { return r.asPromise(sml.epgREST.getChannels()) })
+     .then(function(channels) {
+         var body = document.querySelector('.channels');
+         channels.forEach(function(ch) {
+             var div = document.createElement('div');
+             div.classList.add('channel');
+             div.style.backgroundImage = 'url(https://fe-iptv.baltcom.lv/api/v1/images/load?imageName=' + ch.logo + ')';
+             body.appendChild(div);
+         });
+     })
+</script>
 </body>
 </html>
