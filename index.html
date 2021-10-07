@@ -62,7 +62,7 @@
 <script>
     var r = sml.me.user.library
     var sml = r.init(new r.Config("https://fe-iptv.baltcom.lv/api/v1/"))
-    r.asPromise(sml.deviceREST.authorize())
+    r.asPromise(sml.deviceREST.authorize('ea5adf4bf8334e7fb0112dda5e000011qwe'))
      .then(function() { return r.asPromise(sml.epgREST.getChannels()) })
      .then(function(channels) {
          var body = document.querySelector('.channels');
