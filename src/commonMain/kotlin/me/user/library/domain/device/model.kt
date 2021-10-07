@@ -10,7 +10,7 @@ import kotlin.js.JsExport
 data class Account(val login: String, val password: String)
 
 class DeviceREST(private val fetcher: Fetcher) {
-    fun authorize(uuid: String): Single<Account> {
-        return fetcher.get("device/authorize?uuid=$uuid&appVersion=6.7.26-2-g2267c979&stbType=&deviceType=WEB&demo=0&useSameSite=true&lang=en")
+    fun authorize(): Single<Account> {
+        return fetcher.get("device/authorize?uuid=ea5adf4bf8334e7fb0112dda5e000011qwe&appVersion=6.7.26-2-g2267c979&stbType=&deviceType=WEB&demo=0&useSameSite=true&lang=en")
     }
 }
